@@ -8,6 +8,7 @@ class PrivateUser(AbstractUser):
     # ^ This field will store a secret token for Google Auth QR
     email = models.EmailField(max_length=256, unique=True)
     age = models.IntegerField()
+    has_2fa = models.BooleanField(default=False)
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['first_name', 'last_name', 'age', 'username']

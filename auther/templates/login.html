@@ -1,0 +1,25 @@
+<h1>Login</h1>
+
+{% if messages %}
+    {% for m in messages %}
+        {% if m.tags == "error" %}
+                <!-- RED ALERT -->
+                <p> 
+                    {{ m }}
+                </p>
+            
+        </div>
+        {% else %}
+        <!-- GREEN ALERT -->
+            <p>
+                {{ m }}
+            </p>
+        {% endif %}
+    {% endfor %}
+    {% endif %}
+
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Submit</button>
+    </form>
