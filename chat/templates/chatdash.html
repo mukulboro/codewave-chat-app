@@ -1,6 +1,6 @@
 {% extends "_base.html" %} {% load static %} {% block content %}
 <div class="min-h-screen w-full">
-  <div class=" justify-between align-middle lg:flex">
+  <div class="hidden justify-between align-middle lg:flex">
     <div
       class="hidden bg-gray-700 gap-5 md:w-50 md:h-8 lg:w-80 lg:h-10 lg:flex"
     >
@@ -10,21 +10,86 @@
       <h1 class="text-3xl text-white">Messages</h1>
     </div>
     <h1 class="text-3xl">Crpytic name</h1>
-    <h1>Buttons group</h1>
+    <div class="gap-2">
+      <div
+        class="tooltip hover:tooltip-open tooltip-bottom"
+        data-tip="Reveal a letter"
+      >
+        <button class="btn" onclick="my_modal_1.showModal()">
+          <i class="fa-solid fa-eye text-blue-400"></i>
+        </button>
+      </div>
+      <div class="tooltip hover:tooltip-open tooltip-bottom" data-tip="Alert">
+        <button class="btn" onclick="my_modal_2.showModal()">
+          <i class="fa-solid fa-triangle-exclamation text-red-400"></i>
+        </button>
+      </div>
+    </div>
   </div>
+
+  <!-- REVEAL MODAL -->
+  <dialog id="my_modal_1" class="modal">
+    <div class="modal-box">
+      <h3 class="text-lg font-bold">Warning</h3>
+      <p class="py-4">Do you want to reveal a letter of your name</p>
+      <p class="font-semibold">Current the other person knows the following</p>
+      <div class="modal-action">
+        <form method="dialog">
+          <button class="btn bg-green-600 text-white">Yes</button>
+          <!-- if there is a button in form, it will close the modal -->
+          <button class="btn bg-red-600 text-white">No</button>
+        </form>
+      </div>
+    </div>
+  </dialog>
+
+  <!-- REPORT MODAL -->
+  <dialog id="my_modal_2" class="modal">
+    <div class="modal-box">
+      <h3 class="text-lg font-bold">Warning</h3>
+      <p class="py-4">Do you want to report this person?</p>
+
+      <div class="modal-action">
+        <form method="dialog">
+          <button class="btn bg-green-600 text-white">Yes</button>
+          <!-- if there is a button in form, it will close the modal -->
+          <button class="btn bg-red-600 text-white">No</button>
+        </form>
+      </div>
+    </div>
+  </dialog>
 
   <div class="drawer lg:drawer-open">
     <input id="my-drawer-2" type="checkbox" class="drawer-toggle" />
     <div
       class="drawer-content flex flex-col items-start justify-center w-full min-h-screen"
     >
-      <!-- Page content here -->
-      <label for="my-drawer-2" class="lg:hidden">
-        <img
-          src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAJQAAACUCAMAAABC4vDmAAAAYFBMVEX///8AAADt7e3W1tZOTk4iIiLg4OAUFBT19fVYWFhvb2+qqqqfn5/JyclHR0cwMDCzs7NhYWE/Pz+Hh4e/v7/Q0NCSkpLn5+d2dnZ+fn41NTUaGhoJCQknJyeYmJhTU1N9UUJQAAAFcElEQVR4nO2c2XajMAyGEwjgQlgDBAIN7/+WEwZvgGyWGMPM4b/paULxd7zIsiT3cjl16tSpUwqEbK9omtsGapo4Tw20mMiI3OvGCnJzGVIebo3Uqrpl85nuOog6xfY8JDvQx/TprfccpkgnUit3esYPhq6ytlDda+M1RfXmHnZKL83MLeSn95hrKDCkTB59sI79OYO9Xuh+o40lsgdN2q/JxkgdFm3uIXnKIg/l2yO1MmhnecJn3tOPKBai+4ZospsOfiDSxfQRmfCl4PtS79h1QthU17BpNzDTj06mzwaCmy3Ab4nZXLZ3f69cMqtQM7k6u+dUy07Eq8uuuu8k3oTtlW78o1y/4vFL5cYV+WQdbKc4eg5axUMrWHrpTf4+RXo9+tsgNmPgNM9eWpD+6s1PeNwuZC62HzheAYfQzfPf4ah+pneilenKr8Pu92Tk2thW7w9qZxP13b77BJT5y56tintq2lvIzLy84ahyKZRR0QeTSO4gfitkFqwxTwKFqNda3YH3qJZNPZk6E0ORfekajBfAJqJnKUsIRXbwOccgRcpIkw8BFPULdXoz5JzgmDAUoU609VOrlIwODPWDv5553lelB27WgKCIKzrlYamWEVJjNYbCrmioaeEx4SNxgwCoYp+O+iwwh0z1EdQT96Jun/1CuyMdQxEjpZ+JLMB8DOV3n8Q7QNmk6RGUR9eAdhmdCxeOoXBkAYwrPKO7GnlgdAd1FtIZQ2EbBgUWfM7J+lYuBNU5J/USKEPw/nUCfCLiMS2BSuG3rxSwkv4bKKQUClhJa6AuvsIsCRRCWAV1MVJPkUC3aB3UxjqhTqgT6t+CQravRhkYNFkFZfNhm+/kQOnaVVAK3an2eKAEylfJBHl5a6DU5r4VuS5PpVDAYXfVnPLg169SALx/nUnIcleNyghMXhGoegnUxqJQXVChYiGWI0BhD5d5gkeAwj9Zuu8IUDg6zaz+EaDwYe52KCgcKq5pjOwIUCSxTcfvCFBkUjnEKEigkKeqGs0qoEQ6gyI7GjmySqCUpkqB4DODIllkgiGGMlUySb0ErgDHnIBS7LqMdz8OiiXSMp09BUQ4eKgLSRfXkRSK1hcpERDi6EFlNL/sPqWrL1dWqOBCkdgeFOe9WY9CDPX5M0OR4Lf3oGhai2lf49kpPwKUEfShRtXM2ooGOT27g2XFPhlU28wqOFYsnJsJuY9Qbwj3SBiZUNPPkjuY7wCF00LDXJXt0SouzWntVolwjZGqBP3pWuxvOlB3YEuqP7GN5/QNPKde9+kqkieG1z0pltDcVbG0WeKijMvPthSp9Ybrdln1lE5bRfN2oipYWqoEeIcbiXq14plMnYZG0wjSGwa1uBtY+dvV09BZGbXYtexCFJfDvoHxLYUyC4c2Jq8ANPkyT7e9SIOrIKfHc0lJpR/lfBx8qkJjcHSpfsNOiWDJUqTmFc5Wv8B1RtWIsEwXKnOg+iZWO8evRIL7h7W4iAmNff3ZCmfWRqXwiQpIYHT65jZePns5oQhKx4ig0tUVAla5bJ9Ny1FTAqjVFyljb7mJRrZXNkErSwKFWNrNCubLffsr7tvyKsRQPpt+gV5H2hVCcZag1FpHK4EqGJOOUvE5UCazBC/9hZgwVMr201j7YQOG4o34Hkd9CMrgonsa7pvOgtp56EAozogXmi2BCIobukq4SWuGstmNtnDB/xrYFIoL9UvdPp1QXJ5mj0gkBMX5yskO1fQgFFfZ/LOTJRhBccHRXYw4BMWGbkdLMISiavYeulYDKN3uHKw+1B6JEkA81N6WgIqD0nfzb0oMSrsnLhbZWsIDWAIqHCxtDjN0rbrLNvsb8YEet3hH1+nUqVOnTkn0B4ClZv3q8nakAAAAAElFTkSuQmCC"
-          class="h-10"
-        />
-      </label>
+      <div class="lg:hidden flex justify-between w-full">
+        <!-- Page content here -->
+        <label for="my-drawer-2" class="lg:hidden h-10 flex">
+          <i class="fa-solid fa-comment size-8 pt-3 pl-3"></i>
+        </label>
+
+        <h1 class="text-xl inline-block pt-2">Crpytic name</h1>
+        <div class="gap-2 flex lg:hidden">
+          <div
+            class="tooltip hover:tooltip-open tooltip-bottom"
+            data-tip="Reveal a letter"
+          >
+            <button class="btn" onclick="my_modal_1.showModal()">
+              <i class="fa-solid fa-eye text-blue-400"></i>
+            </button>
+          </div>
+          <div
+            class="tooltip hover:tooltip-open tooltip-bottom"
+            data-tip="Alert"
+          >
+            <button class="btn" onclick="my_modal_2.showModal()">
+              <i class="fa-solid fa-triangle-exclamation text-red-400"></i>
+            </button>
+          </div>
+        </div>
+      </div>
 
       <div class="w-full h-full bg-gray-800">
         <div class="chat chat-start">
@@ -58,6 +123,17 @@
           </div>
           <div class="chat-bubble">I hate you!</div>
           <div class="chat-footer opacity-50">Seen at 12:46</div>
+        </div>
+      </div>
+      <div class="sticky w-full">
+        <div class="flex flex-row gap-7 p-5 align-baseline justify-center">
+          <textarea
+          placeholder="Message"
+          class="textarea textarea-bordered textarea-xs w-full max-w-xs inline-block bg-slate-200 text-xl text-black h-5"
+          ></textarea>
+          <button class="btn rounded-full hover:bg-blue-300">
+            <i class="fa-solid fa-paper-plane text-blue-500"></i>
+          </button>
         </div>
       </div>
     </div>
