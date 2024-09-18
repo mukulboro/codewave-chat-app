@@ -15,6 +15,7 @@ def chat(request):
         return redirect("login")
     
 def specific_chat(request, chat_id):
+
     chat = Chat.objects.get(id=chat_id)
     if request.user != chat.user1.user and request.user != chat.user2.user:
         messages.error(request, "You are not authorized to view this chat.")
@@ -69,3 +70,6 @@ def specific_chat(request, chat_id):
         "my_chats": filtered_chats,
     }
     return render(request, "chatdash.html", context=context)
+
+def dashboard(request):
+    return render(request, "dashboard.html")

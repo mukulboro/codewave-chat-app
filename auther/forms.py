@@ -74,5 +74,5 @@ class LoginForm(forms.Form):
 class TwoFactorForm(forms.Form):
     token = forms.IntegerField(widget=forms.NumberInput(attrs={
         "placeholder":"type here",
-        "class": "input input-primary w-full max-w-md"
+        "class": "input input-primary w-full max-w-md font-semibold"
     }))
