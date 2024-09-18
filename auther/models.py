@@ -20,6 +20,9 @@ class PublicUser(models.Model):
     profile_picture = models.ImageField(upload_to="profile_pictures/", blank=True, null=True)
     bio = models.CharField(max_length=256)
 
+    def __str__(self):
+        return f"{self.user.first_name} {self.user.last_name}"
+
 
 class UserInterests(models.Model):
     interest = models.CharField(max_length=32)
