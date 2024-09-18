@@ -2,7 +2,7 @@
 
 {% extends "_base.html" %} {% block content %}
 
-<div class="navbar bg-base-100">
+<div class="navbar bg-slate-600">
   <div class="flex-1">
     <a class="btn btn-ghost text-3xl">ChatSecure</a>
   </div>
@@ -23,8 +23,43 @@
       ChatSecure is a cutting-edge platform focused on providing secure communication solutions for users across the globe. 
       Our mission is to ensure privacy and protection while enabling seamless interactions. We prioritize user security with 
       end-to-end encryption and innovative technologies that foster trust and confidentiality. Join us on a journey towards 
-      secure and reliable communication.
+      secure and reliable communication.  
     </p>
   </div>
 </div>
+
+<div class="features-section  "></div>
+  <div class="container mx-auto text-center">
+    <h2 class="text-4xl mb-8">Features</h2>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+      <div class="feature-item">
+        <img src="..\..\static\assets\secure.jpg" alt="Anonymous Chat" class="mx-auto mb-4">
+        <h3 class="text-2xl mb-2">Anonymous Chat</h3>
+        <p>Communicate without revealing your identity.</p>
+      </div>
+      <div class="feature-item">
+        <img src="..\..\static\assets\th.jpg" alt="Secure Encryption" class="mx-auto mb-4">
+        <h3 class="text-2xl mb-2">Secure Encryption</h3>
+        <p>All messages are encrypted using a modified Caesar cipher.</p>
+      </div>
+      <div class="feature-item">
+        <img src="..\..\static\assets\realtime.jpg" alt="Real-time Messaging" class="mx-auto mb-4">
+        <h3 class="text-2xl mb-2">Real-time Messaging</h3>
+        <p>Enjoy seamless real-time chat functionality.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<footer class="bg-slate-700 text-white py-4 mt-8"></footer>
+  <div class="container mx-auto text-center">
+    <p>&copy; 2024 ChatSecure. This application was made during Codewave 24.</p>
+    <p>Follow us on 
+      <a href="#" class="text-blue-400">Twitter</a>, 
+      <a href="#" class="text-blue-600">Facebook</a>, and 
+      <a href="#" class="text-pink-500">Instagram</a>.
+    </p>
+  </div>
+</footer>
 {% endblock content %}
