@@ -1,51 +1,54 @@
 {% extends "_base.html" %} 
 {% block content %}
 
-<div class="flex justify-center items-center h-screen bg-gray-400">
+<div class="flex justify-center items-center min-h-screen bg-gradient-to-r from-gray-400 to-gray-200">
     <div class="text-center">
-        <div class="card bg-base-100 w-96 shadow-xl">
-            <figure class="flex justify-center items-center">
+        <div class="card bg-white w-96 shadow-2xl rounded-lg p-8">
+            <!-- QR Code Section -->
+            <figure class="flex justify-center items-center mb-6">
               <img 
-                src="data:image/png;base64,{{ qr }}"
+                src="data:image/png;base64,{{ qr }}" 
                 alt="QR Code" 
-                class="w-30 h-30"/>
+                class="w-full max-w-xs h-auto rounded-lg shadow-lg"/>
             </figure>
-            <div class="card-body">
-              <h2 class="card-title">Enable 2FA</h2>
-                        {% if messages %}
-                {% for m in messages %}
-                    {% if m.tags == "error" %}
-                            <!-- RED ALERT -->
-                            <p> 
-                                {{ m }}
-                            </p>
-                        
-                    </div>
-                    {% else %}
-                    <!-- GREEN ALERT -->
-                        <p>
-                            {{ m }}
-                        </p>
-                    {% endif %}
-                {% endfor %}
-                {% endif %}
-                <h2>Authenticator secret: {{ token }}</h2>
-                <form method="post">
-                    {% csrf_token %}
-                    {{ form.as_p }}
-                    <div class="card-actions justify-end">
-                        <button type="submit" class="btn btn-primary">Submit</button>
-                    </div>
-                    
-                </form>
+
+            <!-- Form Title -->
+            <div class="card-body space-y-6">
+              <h2 class="card-title text-4xl font-semibold text-gray-800 mb-4">Enable 2FA</h2>
               
+              <!-- Display Messages -->
+              {% if messages %}
+                  {% for m in messages %}
+                      {% if m.tags == "error" %}
+                          <div class="bg-red-50 border-l-4 border-red-400 text-red-700 px-4 py-3 rounded relative mb-4" role="alert">
+                              <span class="block sm:inline font-medium">{{ m }}</span>
+                          </div>
+                      {% else %}
+                          <div class="bg-green-50 border-l-4 border-green-400 text-green-700 px-4 py-3 rounded relative mb-4" role="alert">
+                              <span class="block sm:inline font-medium">{{ m }}</span>
+                          </div>
+                      {% endif %}
+                  {% endfor %}
+              {% endif %}
+              
+              <!-- Authenticator Secret -->
+              <h2 class="text-lg font-medium text-gray-700">Authenticator secret: <span class="font-mono">{{ token }}</span></h2>
+
+              <!-- Form -->
+              <form method="post" class="space-y-4">
+                  {% csrf_token %}
+                  {{ form.as_p }}
+
+                  <!-- Submit Button -->
+                  <div class="card-actions justify-end">
+                      <button type="submit" class="btn btn-primary w-full py-2 text-white bg-blue-600 hover:bg-blue-700 rounded-lg shadow-md transition-transform duration-300 ease-in-out transform hover:scale-105">
+                          Submit
+                      </button>
+                  </div>
+              </form>
             </div>
-          </div>
-        
+        </div>
     </div>
 </div>
-    
-
-
 
 {% endblock content %}
