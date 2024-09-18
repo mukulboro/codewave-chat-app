@@ -17,3 +17,6 @@ def specific_chat(request, chat_id):
 
 def dashboard(request):
     return render(request, "dashboard.html")
+
+def settings(request):
+    return render(request, "settings.html")
