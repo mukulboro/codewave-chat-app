@@ -2,3 +2,7 @@ db.sqlite3
 .env
 **/__pycache__/
 **/migrations/
+
+**/static/src/output.css
+**/static/CACHE/
+**/node_modules/

@@ -1,0 +1,16 @@
+{
+  "name": "codewave-chat-app",
+  "version": "1.0.0",
+  "description": "A chat app that uses a unique encrpytion mechanism",
+  "main": "tailwind.config.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "tw": "npx tailwindcss -i ./static/src/input.css -o ./static/src/output.css --watch"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "daisyui": "^4.12.10",
+    "tailwindcss": "^3.4.12"
+  }
+}

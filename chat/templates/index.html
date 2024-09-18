@@ -1,11 +1,14 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <h1>Main Landing Page</h1>
-</body>
-</html>
+<!-- templates/index.html -->
+
+{% extends "_base.html" %}
+
+{% block content %}
+  <h1 class="text-3xl text-black-800">Django + Tailwind CSS + Flowbite</h1>\
+  <button class="btn">Button</button>
+<button class="btn btn-neutral">Neutral</button>
+<button class="btn btn-primary">Primary</button>
+<button class="btn btn-secondary">Secondary</button>
+<button class="btn btn-accent">Accent</button>
+<button class="btn btn-ghost">Ghost</button>
+<button class="btn btn-link">Link</button>
+{% endblock content %}
