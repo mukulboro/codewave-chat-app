@@ -1,3 +1,5 @@
+{% extends "_base.html" %} 
+{% block content %}
 <h1>Register</h1>
 
 {% if messages %}
@@ -23,3 +25,5 @@
     {{ form.as_p }}
     <button type="submit">Submit</button>
 </form>
+
+{% endblock content %}
