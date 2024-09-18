@@ -1,14 +1,30 @@
 <!-- templates/index.html -->
 
-{% extends "_base.html" %}
+{% extends "_base.html" %} {% block content %}
 
-{% block content %}
-  <h1 class="text-3xl text-black-800">Django + Tailwind CSS + Flowbite</h1>\
-  <button class="btn">Button</button>
-<button class="btn btn-neutral">Neutral</button>
-<button class="btn btn-primary">Primary</button>
-<button class="btn btn-secondary">Secondary</button>
-<button class="btn btn-accent">Accent</button>
-<button class="btn btn-ghost">Ghost</button>
-<button class="btn btn-link">Link</button>
+<div class="navbar bg-base-100">
+  <div class="flex-1">
+    <a class="btn btn-ghost text-3xl">ChatSecure</a>
+  </div>
+  <div class="flex-none">
+    <ul class="menu menu-horizontal px-1 flex-auto">
+      <li><button class="btn btn-accent">Login</button></li>
+      <li>
+        <button class="btn btn-primary ">Sign Up</button>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<div class="flex justify-center items-center h-screen">
+  <div class="text-center">
+    <h1 class="text-5xl mb-8">Welcome to ChatSecure</h1>
+    <p class="text-lg max-w-4xl mx-auto">
+      ChatSecure is a cutting-edge platform focused on providing secure communication solutions for users across the globe. 
+      Our mission is to ensure privacy and protection while enabling seamless interactions. We prioritize user security with 
+      end-to-end encryption and innovative technologies that foster trust and confidentiality. Join us on a journey towards 
+      secure and reliable communication.
+    </p>
+  </div>
+</div>
 {% endblock content %}

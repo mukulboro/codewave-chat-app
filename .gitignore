@@ -5,6 +5,8 @@ db.sqlite3
 
 **/.venv/
 
+**/media/
+
 **/static/src/output.css
 **/static/CACHE/
 **/node_modules/

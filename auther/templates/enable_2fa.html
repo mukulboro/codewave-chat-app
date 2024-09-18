@@ -1,0 +1,28 @@
+<h1>Enbale 2FA</h1>
+
+{% if messages %}
+    {% for m in messages %}
+        {% if m.tags == "error" %}
+                <!-- RED ALERT -->
+                <p> 
+                    {{ m }}
+                </p>
+            
+        </div>
+        {% else %}
+        <!-- GREEN ALERT -->
+            <p>
+                {{ m }}
+            </p>
+        {% endif %}
+    {% endfor %}
+    {% endif %}
+
+<img src="data:image/png;base64,{{ qr }}" alt="QR Code">
+<h2>Authenticator secret: {{ token }}</h2>
+
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Submit</button>
+</form>
