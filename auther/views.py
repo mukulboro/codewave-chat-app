@@ -139,7 +139,7 @@ def two_factor_view(request):
             if user_token == valid_totp:
                 login(request, get_user_model().objects.get(username=request.session.get("username")))
                 messages.success(request, "Successfully logged in")
-                return redirect("login") # TODO: Redirect to dashboard
+                return redirect("dashboard") # TODO: Redirect to dashboard
             else:
                 context = {
                 "form": form
@@ -156,4 +156,4 @@ def two_factor_view(request):
 def logout_view(request):
     logout(request)
     messages.success(request, "Logged Out")
-    return redirect("/login")
+    return redirect("login")

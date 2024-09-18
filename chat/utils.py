@@ -1,5 +1,6 @@
 import random
 import hashlib
+from profanity_check import predict
 
 class FiboCaeser:
     def __init__(self, user_id: int, chat_id: int):
@@ -32,8 +33,9 @@ class FiboCaeser:
             encrypted_text += self.character_list[(index + shift) % modulo]
         return encrypted_text
     
-    def decrypt(self, text: str) -> str:
+    def decrypt(self, text: str, pattern:str) -> str: # Decrypt at certain position according to the pattern
         token_list = list(text)
+        pattern_list = list(pattern)
         fibonaaci_seq = self.fibonaaci(len(token_list))
         self.randomize_character_list()
         decrypted_text = ""
@@ -41,6 +43,27 @@ class FiboCaeser:
         for i, char in enumerate(token_list):
             index = self.character_list.index(char)
             shift = fibonaaci_seq[i]
-            decrypted_text += self.character_list[(index - shift) % modulo]
+            if pattern_list[i] == '1':
+                decrypted_text += self.character_list[(index - shift) % modulo]
+            else:
+                decrypted_text += char
         return decrypted_text
-    
+
+def similarity_score(user1_interest_list: list, user2_interest_list: list) -> float:
+    # Calculate similarity score between two list of strings
+    # This is a simple implementation of Jaccard Similarity
+    user1_interest_list = [ str(i).upper() for i in user1_interest_list ]
+    user2_interest_list = [ str(i).upper() for i in user2_interest_list ]
+    set1 = set(user1_interest_list)
+    set2 = set(user2_interest_list)
+    intersection = len(set1.intersection(set2))
+    union = len(set1.union(set2))
+    return intersection / union
+
+def censor_profanity(text: str) -> str:
+    word_list = text.split(" ")
+    prediction = predict(word_list)
+    for i, word in enumerate(word_list):
+        if prediction[i] == 1:
+            word_list[i] = f"{word[0]}{'*' * (len(word)-2)}{word[-1]}"
+    return " ".join(word_list)
