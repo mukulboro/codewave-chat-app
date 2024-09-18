@@ -18,7 +18,7 @@ class UserRegistrationForm(forms.Form):
     password2 = forms.CharField(max_length=32, widget=forms.PasswordInput)
     location = forms.CharField(max_length=52)
     interests = forms.CharField(max_length=512) # Take in comma seperated values
-
+    profile_picture = forms.ImageField(required=True)
     def clean(self):
         cleaned_data = super().clean()
         password1 = cleaned_data.get("password1")
