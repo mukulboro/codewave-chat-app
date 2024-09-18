@@ -3,6 +3,8 @@ db.sqlite3
 **/__pycache__/
 **/migrations/
 
+**/.venv/
+
 **/static/src/output.css
 **/static/CACHE/
 **/node_modules/
