@@ -17,6 +17,7 @@ class PublicUser(models.Model):
     user = models.OneToOneField(PrivateUser, on_delete=models.CASCADE)
     location = models.CharField(max_length=52)
     gender = models.CharField(max_length=25)
+    profile_picture = models.ImageField(upload_to="profile_pictures/", blank=True, null=True)
     bio = models.CharField(max_length=256)
 
 

@@ -15,12 +15,20 @@ def register_view(request):
         return render(request, "register.html", context=context)
     
     elif request.method == "POST":
-        form = UserRegistrationForm(request.POST)
+        form = UserRegistrationForm(request.POST, request.FILES)
         User = get_user_model()
         if form.is_valid():
             first_name = form.cleaned_data.get("first_name")
             last_name = form.cleaned_data.get("last_name")
             email = form.cleaned_data.get("email")
+
+            existing_user = User.objects.filter(email=email)
+            if existing_user.exists():
+                messages.error(request, "User with this email already exists")
+                context = {
+                    "form": form
+                }
+                return render(request, "register.html", context=context)
             age = form.cleaned_data.get("age")
             password = form.cleaned_data.get("password1")
             random_username = get_random_string(length=32)
@@ -38,7 +46,7 @@ def register_view(request):
             )
             user.save()
 
-            public_user = PublicUser(user=user, location=location, gender=gender, bio="")
+            public_user = PublicUser(user=user, location=location, gender=gender, bio="", profile_picture=request.FILES["profile_picture"])
             public_user.save()
 
             for interest in interest_list:
@@ -144,3 +152,8 @@ def two_factor_view(request):
             }
             messages.error(request, "Invalid data supplied")
             return render(request, "2fa.html", context=context)
+        
+def logout_view(request):
+    logout(request)
+    messages.success(request, "Logged Out")
+    return redirect("/login")
