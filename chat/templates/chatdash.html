@@ -1,0 +1,92 @@
+{% extends "_base.html" %} {% load static %} {% block content %}
+<div class="min-h-screen w-full">
+  <div class=" justify-between align-middle lg:flex">
+    <div
+      class="hidden bg-gray-700 gap-5 md:w-50 md:h-8 lg:w-80 lg:h-10 lg:flex"
+    >
+      <a href="{% url 'testi' %}" class="hover:bg-slate-600"
+        ><img src="{% static 'icons/back.svg' %}" alt="logo" class="h-8 w-8"
+      /></a>
+      <h1 class="text-3xl text-white">Messages</h1>
+    </div>
+    <h1 class="text-3xl">Crpytic name</h1>
+    <h1>Buttons group</h1>
+  </div>
+
+  <div class="drawer lg:drawer-open">
+    <input id="my-drawer-2" type="checkbox" class="drawer-toggle" />
+    <div
+      class="drawer-content flex flex-col items-start justify-center w-full min-h-screen"
+    >
+      <!-- Page content here -->
+      <label for="my-drawer-2" class="lg:hidden">
+        <img
+          src="data:image/png;base64,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"
+          class="h-10"
+        />
+      </label>
+
+      <div class="w-full h-full bg-gray-800">
+        <div class="chat chat-start">
+          <div class="chat-image avatar">
+            <div class="w-10 rounded-full">
+              <img
+                alt="Tailwind CSS chat bubble component"
+                src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp"
+              />
+            </div>
+          </div>
+          <div class="chat-header">
+            Obi-Wan Kenobi
+            <time class="text-xs opacity-50">12:45</time>
+          </div>
+          <div class="chat-bubble">You were the Chosen One!</div>
+          <div class="chat-footer opacity-50">Delivered</div>
+        </div>
+        <div class="chat chat-end">
+          <div class="chat-image avatar">
+            <div class="w-10 rounded-full">
+              <img
+                alt="Tailwind CSS chat bubble component"
+                src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp"
+              />
+            </div>
+          </div>
+          <div class="chat-header">
+            Anakin
+            <time class="text-xs opacity-50">12:46</time>
+          </div>
+          <div class="chat-bubble">I hate you!</div>
+          <div class="chat-footer opacity-50">Seen at 12:46</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="drawer-side">
+      <label
+        for="my-drawer-2"
+        aria-label="close sidebar"
+        class="drawer-overlay"
+      ></label>
+
+      <ul class="menu bg-base-200 text-base-content min-h-full w-80 pb-4 pt-4">
+        <!-- Sidebar content here -->
+        <li class="h-24">
+          <a href="{% url 'chat' %}?id=1" class="pt-2 pl-2 pb-2">
+            <img
+              src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp"
+              class="rounded-full w-16"
+            />
+            <div class="flex flex-col">
+              <h1 class="font-bold">Mukul panta</h1>
+              <p>This is the last message</p>
+            </div>
+          </a>
+        </li>
+        <hr class="mt-1 mb-1 pt-3 pb-3" />
+      </ul>
+    </div>
+  </div>
+</div>
+
+{% endblock content %}
