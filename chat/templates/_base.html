@@ -1,31 +1,24 @@
 <!-- templates/_base.html -->
 
-{% load compress %}
-{% load static %}
+{% load compress %} {% load static %}
 
 <!DOCTYPE html>
 <html lang="en" data-theme="dark">
-
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>ChatSecure</title>
 
     {% compress css %}
-    <link rel="stylesheet" href="{% static 'src/output.css' %}">
+    <link rel="stylesheet" href="{% static 'src/output.css' %}" />
     {% endcompress %}
+  </head>
 
-</head>
-
-
-<body class="min-h-screen h-max w-full">
-    <div class=" w-full">
-        {% block content %}
-        {% endblock content %}
-    </div>  
-</body>
- <script defer src="{% static 'src/fontawesome.min.js' %}"></script>
+  <body class="min-h-screen h-max w-full">
+    <div class="w-full
+     ">{% block content %} {% endblock content %}</div>
+  </body>
+  <script defer src="{% static 'src/fontawesome.min.js' %}"></script>
   <script defer src="{% static 'src/solid.min.js' %}"></script>
-
 </html>
