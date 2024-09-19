@@ -3,6 +3,7 @@ from django.contrib import messages
 from .models import Chat, ChatMessage
 from auther.models import PublicUser, UserInterests
 from .utils import FiboCaeser, similarity_score
+from .forms import ProfileUpdateForm
 
 def index(request):
     return render(request, "index.html")
@@ -130,6 +131,31 @@ def create_new_chat(request, user_id):
                                    u2_address_shown="".join(user2_location_pattern))
         chat.save()
         return redirect("specific_chat", chat.pk)
+    else:
+        messages.error(request, "You need to login first.")
+        return redirect("login")
+
+def settings(request):
+    if request.user.is_authenticated:
+        if request.method == "POST":
+            form = ProfileUpdateForm(request.POST)
+            if form.is_valid():
+                bio = form.cleaned_data["bio"]
+                public_user = PublicUser.objects.get(user=request.user)
+                public_user.bio = bio
+                public_user.save()
+                messages.success(request, "Profile updated successfully.")
+                return redirect("settings")
+            else:
+                messages.error(request, "Invalid form data.")
+        else:
+            user = PublicUser.objects.get(user=request.user)
+            form = ProfileUpdateForm()
+            context = {
+                "user": user,
+                "form": form
+            }
+            return render(request, "settings.html", context=context)
     else:
         messages.error(request, "You need to login first.")
         return redirect("login")

@@ -201,8 +201,13 @@
 
 <script>
   const messageContainer = document.querySelector("#messageContainer");
+  if(location.protocol === 'https:') {
+    var ws_scheme = "wss://";
+  } else {
+    var ws_scheme = "ws://";
+  }
   const chatSocket = new WebSocket(
-    "ws://" + window.location.host + "/ws/{{chat_id}}"
+    ws_scheme + window.location.host + "/ws/{{chat_id}}"
   );
   chatSocket.onopen = function (e) {
     console.log("The connection was setup successfully!");
