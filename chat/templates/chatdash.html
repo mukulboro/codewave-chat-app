@@ -1,15 +1,19 @@
 {% extends "_base.html" %} {% load static %} {% block content %}
+
 <div class="min-h-screen w-full">
   <div class="hidden justify-between align-middle lg:flex">
     <div
       class="hidden bg-gray-700 gap-5 md:w-50 md:h-8 lg:w-80 lg:h-10 lg:flex"
     >
-      <a href="{% url 'testi' %}" class="hover:bg-slate-600"
+      <a href="{% url 'dashboard' %}" class="hover:bg-slate-600"
         ><img src="{% static 'icons/back.svg' %}" alt="logo" class="h-8 w-8"
       /></a>
       <h1 class="text-3xl text-white">Messages</h1>
     </div>
-    <h1 class="text-3xl">Crpytic name</h1>
+    <h1 class="text-3xl">
+      {{ their_encrypted_name }} |
+      <i class="fa-solid fa-location-dot"></i> {{their_encrypted_location }}
+    </h1>
     <div class="gap-2">
       <div
         class="tooltip hover:tooltip-open tooltip-bottom"
@@ -33,9 +37,19 @@
       <h3 class="text-lg font-bold">Warning</h3>
       <p class="py-4">Do you want to reveal a letter of your name</p>
       <p class="font-semibold">Current the other person knows the following</p>
+      <p>- <span class="font-extrabold">Name: {{ my_name_pattern }}</span></p>
+      <p>
+        -
+        <span class="font-extrabold">Location: {{ my_location_pattern }}</span>
+      </p>
       <div class="modal-action">
         <form method="dialog">
-          <button class="btn bg-green-600 text-white">Yes</button>
+          <button
+            onclick="handleModalYes()"
+            class="btn bg-green-600 text-white"
+          >
+            Yes
+          </button>
           <!-- if there is a button in form, it will close the modal -->
           <button class="btn bg-red-600 text-white">No</button>
         </form>
@@ -70,7 +84,10 @@
           <i class="fa-solid fa-comment size-8 pt-3 pl-3"></i>
         </label>
 
-        <h1 class="text-xl inline-block pt-2">Crpytic name</h1>
+        <h1 class="text-sm inline-block pt-2">
+          {{ their_encrypted_name }} |
+          <i class="fa-solid fa-location-dot"></i> {{their_encrypted_location }}
+        </h1>
         <div class="gap-2 flex lg:hidden">
           <div
             class="tooltip hover:tooltip-open tooltip-bottom"
@@ -91,23 +108,8 @@
         </div>
       </div>
 
-      <div class="w-full h-full bg-gray-800">
-        <div class="chat chat-start">
-          <div class="chat-image avatar">
-            <div class="w-10 rounded-full">
-              <img
-                alt="Tailwind CSS chat bubble component"
-                src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp"
-              />
-            </div>
-          </div>
-          <div class="chat-header">
-            Obi-Wan Kenobi
-            <time class="text-xs opacity-50">12:45</time>
-          </div>
-          <div class="chat-bubble">You were the Chosen One!</div>
-          <div class="chat-footer opacity-50">Delivered</div>
-        </div>
+      <div class="w-full max-h-screen overflow-y-auto bg-gray-800" id="messageContainer">
+        {% for m in messages %} {% if m.sender.user.username == current_user %}
         <div class="chat chat-end">
           <div class="chat-image avatar">
             <div class="w-10 rounded-full">
@@ -118,20 +120,43 @@
             </div>
           </div>
           <div class="chat-header">
-            Anakin
-            <time class="text-xs opacity-50">12:46</time>
+            You
+            <time class="text-xs opacity-50">{{ m.timestamp }}</time>
           </div>
-          <div class="chat-bubble">I hate you!</div>
-          <div class="chat-footer opacity-50">Seen at 12:46</div>
+          <div class="chat-bubble">{{ m.message }}</div>
+          <!-- <div class="chat-footer opacity-50">Seen at 12:46</div> -->
         </div>
+        {% else %}
+        <div class="chat chat-start">
+          <div class="chat-image avatar">
+            <div class="w-10 rounded-full">
+              <img
+                alt="Tailwind CSS chat bubble component"
+                src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp"
+              />
+            </div>
+          </div>
+          <div class="chat-header">
+            Them
+            <time class="text-xs opacity-50">{{ m.timestamp }}</time>
+          </div>
+          <div class="chat-bubble">{{ m.message }}</div>
+          <!-- <div class="chat-footer opacity-50">Delivered</div> -->
+        </div>
+        {% endif %} {% endfor %}
       </div>
       <div class="sticky w-full">
         <div class="flex flex-row gap-7 p-5 align-baseline justify-center">
           <textarea
-          placeholder="Message"
-          class="textarea textarea-bordered textarea-xs w-full max-w-xs inline-block bg-slate-200 text-xl text-black h-5"
+            placeholder="Message"
+            id="message_box"
+            class="textarea textarea-bordered textarea-xs w-full max-w-xs inline-block bg-slate-200 text-xl text-black h-5"
           ></textarea>
-          <button class="btn rounded-full hover:bg-blue-300">
+          <button
+            onclick="handleSendMessage()"
+            id="send_message"
+            class="btn rounded-full hover:bg-blue-300"
+          >
             <i class="fa-solid fa-paper-plane text-blue-500"></i>
           </button>
         </div>
@@ -147,22 +172,134 @@
 
       <ul class="menu bg-base-200 text-base-content min-h-full w-80 pb-4 pt-4">
         <!-- Sidebar content here -->
+        {% for m in my_chats %}
+
         <li class="h-24">
-          <a href="{% url 'chat' %}?id=1" class="pt-2 pl-2 pb-2">
+          <a href="{% url 'chat' %}{{m.chat_id}}/" class="pt-2 pl-2 pb-2">
+            {% if m.their_profile_picture %}
+            <img
+              src="{{ m.their_profile_picture }}"
+              class="rounded-full w-16"/>
+            {% else %}
             <img
               src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp"
               class="rounded-full w-16"
             />
+            {% endif %}
             <div class="flex flex-col">
-              <h1 class="font-bold">Mukul panta</h1>
-              <p>This is the last message</p>
+              <h1 class="font-bold">{{ m.their_username}}...</h1>
+              <p id="last_message">{{ m.last_message }}</p>
             </div>
           </a>
+          {% endfor %}
         </li>
         <hr class="mt-1 mb-1 pt-3 pb-3" />
       </ul>
     </div>
   </div>
 </div>
+
+<script>
+  const messageContainer = document.querySelector("#messageContainer");
+  const chatSocket = new WebSocket(
+    "ws://" + window.location.host + "/ws/{{chat_id}}"
+  );
+  chatSocket.onopen = function (e) {
+    console.log("The connection was setup successfully!");
+  };
+  chatSocket.onclose = function (e) {
+    alert(
+      "There was an error connecting to the server. Please try again later."
+    );
+    console.log("Something unexpected happened !");
+  };
+
+  chatSocket.onmessage = function (e) {
+    const data = JSON.parse(e.data);
+    type = data.type;
+    if (type === "REVEAL_LETTER") {
+      window.location.reload()
+    } else {
+      
+    message = data.message;
+    sent_by = data.username;
+    if (sent_by === "{{request.user.username}}") {
+      let newChatBubble = `<div class="chat chat-end">
+          <div class="chat-image avatar">
+            <div class="w-10 rounded-full">
+              <img
+                alt="Tailwind CSS chat bubble component"
+                src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp"
+              />
+            </div>
+          </div>
+          <div class="chat-header">
+            You
+            <time class="text-xs opacity-50">Less than an hour ago</time>
+          </div>
+          <div class="chat-bubble">${message}</div>
+      
+        </div>`;
+      messageContainer.innerHTML += newChatBubble;
+    } else {
+      let newChatBubble = `<div class="chat chat-start">
+          <div class="chat-image avatar">
+            <div class="w-10 rounded-full">
+              <img
+                alt="Tailwind CSS chat bubble component"
+                src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp"
+              />
+            </div>
+          </div>
+          <div class="chat-header">
+            Them
+            <time class="text-xs opacity-50">Less than an hour ago</time>
+          </div>
+          <div class="chat-bubble">${message}</div>
+  
+        </div>`;
+      messageContainer.innerHTML += newChatBubble;
+    }
+  }
+
+  };
+
+  document.querySelector("#message_box").onkeyup = function (e) {
+    if (e.keyCode == 13) {
+      document.querySelector("#send_message").click();
+    }
+  };
+
+  const handleModalYes = () => {
+    let chatMessage = {
+      type: "REVEAL_LETTER",
+      username: "{{request.user.username}}",
+      message: "",
+    };
+    chatSocket.send(
+      JSON.stringify({
+        message: chatMessage,
+        username: "{{request.user.username}}",
+      })
+    );
+  };
+
+  const handleSendMessage = () => {
+    let chatMessage = {
+      type: "MESSAGE",
+      username: "{{request.user.username}}",
+      message: document.querySelector("#message_box").value,
+      chatID: "{{chat_id}}",
+    };
+    chatSocket.send(
+      JSON.stringify({
+        message: chatMessage,
+        username: "{{request.user.username}}",
+      })
+    );
+    document.querySelector("#message_box").value = "";
+    document.querySelector("#last_message").innerHTML = chatMessage.message;
+  };
+</script>
 
 {% endblock content %}
