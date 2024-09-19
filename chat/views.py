@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, HttpResponse
 from django.contrib import messages
 from .models import Chat, ChatMessage
 from auther.models import PublicUser, UserInterests
@@ -9,7 +9,9 @@ def index(request):
 
 def chat(request):
     if request.user.is_authenticated:
-        return render(request, "chatdash.html")
+        my_chats = Chat.objects.filter(user1__user=request.user) | Chat.objects.filter(user2__user=request.user)
+        one_chat = my_chats.first().pk
+        return redirect("specific_chat", one_chat)
     else:
         messages.error(request, "You need to login first.")
         return redirect("login")
@@ -94,7 +96,6 @@ def dashboard(request):
                 })
         filtered_users.sort(key=lambda x: x["similarity"], reverse=True)
 
-        print(filtered_users)
         context = {
             "full_name": full_name,
             "filtered_users": filtered_users
