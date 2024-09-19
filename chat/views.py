@@ -86,12 +86,15 @@ def dashboard(request):
         all_users = PublicUser.objects.all()
         filtered_users = []
         for users in all_users:
+            existing_chats_user_ids = set(Chat.objects.filter(user1__user=request.user).values_list('user2__user__id', flat=True)) | set(Chat.objects.filter(user2__user=request.user).values_list('user1__user__id', flat=True))
+            if users.user.id in existing_chats_user_ids:
+                continue
             if not users.user == request.user:
                 similarity = similarity_score(UserInterests.objects.filter(user=current_public_user).values_list("interest", flat=True), UserInterests.objects.filter(user=users).values_list("interest", flat=True))
                 user_interests = UserInterests.objects.filter(user=users).values_list("interest", flat=True)
                 filtered_users.append({
                     "user": users,
-                    "interests": user_interests,
+                    "interests": [str(i).upper() for i in user_interests],
                     "similarity": similarity
                 })
         filtered_users.sort(key=lambda x: x["similarity"], reverse=True)

@@ -21,11 +21,11 @@
           <i class="fa-solid fa-gear text-4xl hover:text-blue-600"></i>
         </a>
       </li>
-      <li class="mt-4 mb-6">
+      <!-- <li class="mt-4 mb-6">
         <a>
           <i class="fa-solid fa-circle-info text-4xl hover:text-blue-600"></i>
         </a>
-      </li>
+      </li> -->
       <li class="mt-4 mb-6">
         <button onclick="my_modal_1.showModal()">
           <i
@@ -41,14 +41,14 @@
     class="grid grid-cols-1 gap-4 lg:grid-cols-3 lg:gap-8 w-full pl-10 pr-10 pt-10 pb-5 overflow-y-auto overscroll-contain"
   >
   {% for user in filtered_users %}
-    <div class="h-72 rounded-lg bg-green-300 p-6">
-      <h1 class="text-xl text-center text-black mb-1">User {{ user.user.user.pk }}</h1>
+    <div class="h-72 rounded-lg bg-gray-700 p-6">
+      <h1 class="text-xl text-center text-white mb-1">User {{ user.user.user.pk }}</h1>
       <div class="flex justify-evenly">
         <div class="badge badge-secondary">{{ user.user.gender }}</div>
         <div class="badge badge-primary">{{ user.similarity }}</div>
       </div>
       <p class="text-red-500 font-semibold">Bio:</p>
-      <p class="text-black">
+      <p class="text-white">
         {{ user.user.bio }}
       </p>
       {% for interest in user.interests %}
