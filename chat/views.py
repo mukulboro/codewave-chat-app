@@ -57,14 +57,14 @@ def specific_chat(request, chat_id):
             filtered_chats.append({
                 "chat_id": chat.pk,
                 "their_username": chat.user2.user.username[0:10],
-                "their_profile_picture": profile_picture.url,
+                "their_profile_picture": profile_picture.url if profile_picture else None,
                 "last_message": (last_message.message.strip())[0:12] if last_message else "No messages yet",
             })
         else:
             filtered_chats.append({
                 "chat_id": chat.pk,
                 "their_username": chat.user1.user.username[0:10],
-                "their_profile_picture": profile_picture.url,
+                "their_profile_picture": profile_picture.url if profile_picture else None,
                 "last_message": (last_message.message.strip())[0:12] if last_message else "No messages yet",
             })
     context = {
