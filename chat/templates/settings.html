@@ -1,0 +1,73 @@
+{% extends "_base.html" %} {% load static %} {% block content %}
+
+<div class="min-h-screen flex bg-gray-800">
+  <!-- Sidebar -->
+  <aside class="text-white flex-grow p-6">
+    <h2 class="text-3xl font-bold mb-8 text-center lg:text-left">Settings</h2>
+    <nav class="flex flex-col space-y-4">
+        <details class="collapse bg-base-200">
+            <summary class="collapse-title  font-medium block px-4 py-6 rounded-lg bg-gray-700 hover:bg-gray-600 text-center">
+                Profile</summary>
+            <div class="collapse-content">
+                <div class="flex justify-center items-start ">
+                    <div class="text-center mt-4">
+                        <h1 class="text-xl">Add a Bio:</h1>
+                        <textarea class="textarea textarea-primary w-96" placeholder="Bio"></textarea>
+                    </div>
+                </div>
+                
+          </details>
+
+          <details class="collapse bg-base-200">
+            <summary class="collapse-title  font-medium block px-4 py-6 rounded-lg bg-gray-700 hover:bg-gray-600 text-center">
+                Account</summary>
+            <div class="collapse-content">
+                <div class="flex justify-center items-center h-screen">
+                    <div class="text-center">
+                        <h1>Add a Bio</h1>
+                        <textarea class="textarea textarea-primary" placeholder="Bio"></textarea>
+                    </div>
+                </div>
+                    
+
+            </div>
+          </details>
+          
+      
+          <details class="collapse bg-base-200">
+            <summary class="collapse-title  font-medium block px-4 py-6 rounded-lg bg-gray-700 hover:bg-gray-600 text-center">
+                Notifications</summary>
+            <div class="collapse-content">
+              <p>content</p>
+            </div>
+          </details>
+
+          <details class="collapse bg-base-200">
+            <summary class="collapse-title  font-medium block px-4 py-6 rounded-lg bg-gray-700 hover:bg-gray-600 text-center">
+                Privacy</summary>
+            <div class="collapse-content">
+              <p>content</p>
+            </div>
+          </details>
+          <details class="collapse bg-base-200">
+            <summary class="collapse-title  font-medium block px-4 py-6 rounded-lg bg-gray-700 hover:bg-gray-600 text-center">
+                Security</summary>
+            <div class="collapse-content">
+              <p>content</p>
+            </div>
+          </details>
+      
+          <details class="collapse bg-base-200">
+            <summary class="collapse-title  font-medium block px-4 py-6 rounded-lg bg-gray-700 hover:bg-gray-600 text-center">
+                Appearance</summary>
+            <div class="collapse-content">
+              <p>content</p>
+            </div>
+          </details>
+    </nav>
+  </aside>
+</div>
+
+  
+
+{% endblock content %}
