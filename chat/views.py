@@ -1,8 +1,8 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from .models import Chat, ChatMessage
-from auther.models import PublicUser
-from .utils import FiboCaeser
+from auther.models import PublicUser, UserInterests
+from .utils import FiboCaeser, similarity_score
 
 def index(request):
     return render(request, "index.html")
@@ -15,7 +15,6 @@ def chat(request):
         return redirect("login")
     
 def specific_chat(request, chat_id):
-
     chat = Chat.objects.get(id=chat_id)
     if request.user != chat.user1.user and request.user != chat.user2.user:
         messages.error(request, "You are not authorized to view this chat.")
@@ -34,12 +33,17 @@ def specific_chat(request, chat_id):
     my_name = list(request.user.first_name + " " + request.user.last_name)
     my_location = list(PublicUser.objects.get(user=request.user).location)
 
+    profile_picture = None
+
     for i, chr in enumerate(my_name):
         if my_name_pattern[i] == '0':
             my_name[i] = "_"
     for i, chr in enumerate(my_location):
         if my_location_pattern[i] == '0':
             my_location[i] = "_"
+
+    if '0' not in decryption_pattern and '0' not in location_decryption_pattern:
+        profile_picture = them.profile_picture
 
     my_chats = Chat.objects.filter(user1__user=request.user) | Chat.objects.filter(user2__user=request.user)
     filtered_chats = []
@@ -51,12 +55,14 @@ def specific_chat(request, chat_id):
             filtered_chats.append({
                 "chat_id": chat.pk,
                 "their_username": chat.user2.user.username[0:10],
+                "their_profile_picture": profile_picture.url,
                 "last_message": (last_message.message.strip())[0:12] if last_message else "No messages yet",
             })
         else:
             filtered_chats.append({
                 "chat_id": chat.pk,
                 "their_username": chat.user1.user.username[0:10],
+                "their_profile_picture": profile_picture.url,
                 "last_message": (last_message.message.strip())[0:12] if last_message else "No messages yet",
             })
     context = {
@@ -72,4 +78,54 @@ def specific_chat(request, chat_id):
     return render(request, "chatdash.html", context=context)
 
 def dashboard(request):
-    return render(request, "dashboard.html")
+     if request.user.is_authenticated:
+        full_name = request.user.first_name + " " + request.user.last_name
+        current_public_user = PublicUser.objects.get(user=request.user)
+        all_users = PublicUser.objects.all()
+        filtered_users = []
+        for users in all_users:
+            if not users.user == request.user:
+                similarity = similarity_score(UserInterests.objects.filter(user=current_public_user).values_list("interest", flat=True), UserInterests.objects.filter(user=users).values_list("interest", flat=True))
+                user_interests = UserInterests.objects.filter(user=users).values_list("interest", flat=True)
+                filtered_users.append({
+                    "user": users,
+                    "interests": user_interests,
+                    "similarity": similarity
+                })
+        filtered_users.sort(key=lambda x: x["similarity"], reverse=True)
+
+        print(filtered_users)
+        context = {
+            "full_name": full_name,
+            "filtered_users": filtered_users
+        }
+        return render(request, "dashboard.html", context=context)
+     else:
+        messages.error(request, "You need to login first.")
+        return redirect("login")
+
+def create_new_chat(request, user_id):
+    if request.user.is_authenticated:
+        user2 = PublicUser.objects.get(user__pk=user_id)
+        user2_full_name = user2.user.first_name + " " + user2.user.last_name
+        user1_full_name = request.user.first_name + " " + request.user.last_name
+
+        user2_location = user2.location
+        user1_location = PublicUser.objects.get(user=request.user).location
+
+        user1_location_pattern = ["0" for _ in range(len(user1_location))]
+        user2_location_pattern = ["0" for _ in range(len(user2_location))]
+
+        user2_pattern = ["0" for _ in range(len(user2_full_name))]
+        user1_pattern = ["0" for _ in range(len(user1_full_name))]
+    
+        chat = Chat.objects.create(user1=PublicUser.objects.get(user=request.user), 
+                                   user2=user2, u1_name_shown="".join(user1_pattern), 
+                                   u2_name_shown="".join(user2_pattern), 
+                                   u1_address_shown="".join(user1_location_pattern), 
+                                   u2_address_shown="".join(user2_location_pattern))
+        chat.save()
+        return redirect("specific_chat", chat.pk)
+    else:
+        messages.error(request, "You need to login first.")
+        return redirect("login")
