@@ -26,7 +26,10 @@ SECRET_KEY = 'django-insecure-l=a6^h@qfz%7-zol+6cax_e2mn41wouk@a#c_+pc06f26bwv-1
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+NGROK_LINK = "https://97aa-27-34-49-252.ngrok-free.app"
+
 ALLOWED_HOSTS = ["*"]
+CSRF_TRUSTED_ORIGINS = [NGROK_LINK]
 
 
 # Application definition
@@ -35,6 +38,7 @@ INSTALLED_APPS = [
     # 'jazzmin',
     'auther',
     'chat',
+    'corsheaders',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -47,6 +51,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -154,3 +159,4 @@ PARENT_DIR = os.getcwd()
 MEDIA_ROOT = os.path.join(PARENT_DIR, "media")
 
 MEDIA_URL = "/media/"
+
